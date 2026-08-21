@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import date, datetime
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -90,3 +91,42 @@ class MemberOut(BaseModel):
     username: str
     role: str
     joined_at: datetime
+
+
+# ---- stock items ----
+
+
+class StockItemIn(BaseModel):
+    name: str = Field(min_length=1, max_length=128)
+    quantity: str = Field(default="", max_length=64)
+    zone: Literal["freezer", "fridge", "pantry"] = "fridge"
+    state: Literal["raw", "cooked", "leftover"] = "raw"
+    expiry_date: date | None = None
+
+
+class BatchItemsIn(BaseModel):
+    items: list[StockItemIn] = Field(min_length=1)
+
+
+class StockItemOut(BaseModel):
+    id: int
+    name: str
+    quantity: str
+    zone: str
+    state: str
+    expiry_date: date | None
+    fridge_id: int
+    fridge_name: str
+
+
+class ItemPatchIn(BaseModel):
+    # 只 apply model_fields_set 里出现的字段；expiry_date 显式传 null = 清空
+    name: str | None = Field(default=None, min_length=1, max_length=128)
+    quantity: str | None = Field(default=None, max_length=64)
+    zone: Literal["freezer", "fridge", "pantry"] | None = None
+    state: Literal["raw", "cooked", "leftover"] | None = None
+    expiry_date: date | None = None
+
+
+class ExpiryAlertOut(StockItemOut):
+    days_left: int

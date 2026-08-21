@@ -43,6 +43,8 @@
 - [设计文档成稿并验收](../009-design-doc/issue.md)：docs/design/ 9 模块（00 概览 + 01 领域模型 + 02 账号冰箱 + 03 食材管理 + 04 食谱审核 + 05 推荐引擎 + 06 AI provider + 07 前端 IA + 08 部署）全写完，每模块含数据模型/API 契约/流程/验收用例（临期五花肉、半颗卷心菜、不明剩菜盒三场景贯穿）；三处跨票修订（种子库手动、库空降级 LLM、保质期手填）已在 04/05/01+03 体现；Yk 验收通过。决策段收口，进入建造期。
 - [014 项目脚手架](../014-project-scaffold/issue.md)：Monorepo 空壳落地（backend FastAPI + frontend Vue3/Vite + db/redis/minio），docker-compose up 五服务全 Up，/health 经 nginx 反代可达，alembic 可连 DB（无 migration，015 才建）。实现修了两 bug（nginx 反代尾斜杠重写 /api→裸路由、DB dialect psycopg2）。详见 resolution。
 - [015 数据库 schema + ORM models](../015-database-models/issue.md)：11 业务表 + alembic_version 全建成（User/OAuthBinding/Fridge/Membership/InviteCode/StockItem/FridgeEvent/Recipe/RecipeIngredientLine/CaseFile/CaseFileEntry）；枚举用 String+CheckConstraint；留痕双轨（FridgeEvent ondelete SET NULL 保留署名）；alembic 首个 migration 落地。修了 default vs server_default bug（裸 SQL insert 现可用）。详见 resolution。
+- [016 账号与冰箱共享](../016-auth-fridge/issue.md)：注册（空库首个豁免码自动 admin）/登录 JWT/多端不互踢/注册邀请码（任意登录用户可发）/admin 重置密码+任命转让（最后一名保护）/冰箱 CRUD+owner 权限矩阵+6 位码 join（上限 10 人）+归档恢复/聚合视图空壳与 accessible_fridge_ids 范围解析（021 复用）。验收 16/16。详见 resolution。
+- [017 食材管理与录入（文字通道）](../017-ingredient-mgmt/issue.md)：批量录入/聚合视图（含 fridge_name，expiry nulls_last）/红色通缉令（跨冰箱 ≤3 天含过期，days_left 升序）/行内编辑 PATCH（model_fields_set 显式更新）/删除三态 consumed|discarded|deleted 全量 FridgeEvent 留痕带 snapshot。验收 15/15。详见 resolution。
 
 ## Not yet specified
 

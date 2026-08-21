@@ -174,14 +174,3 @@ def accessible_fridge_ids(db: Session, user: User, fridge_id_param: str) -> list
     if fridge.status != "active":
         raise HTTPException(status_code=403, detail="冰箱已归档")
     return [fid]
-
-
-@router.get("/items")
-def list_items(
-    fridge_id: str = "all",
-    user: User = Depends(get_current_user),
-    db: Session = Depends(get_db),
-):
-    """017 填充真实食材数据；此票打通路由与权限，返回空列表。"""
-    accessible_fridge_ids(db, user, fridge_id)
-    return []

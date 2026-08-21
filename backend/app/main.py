@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import admin, auth, fridges
+from app.routers import admin, auth, fridges, item_ops, items
 
 app = FastAPI(title="The Leftover Bureau API", version="0.1.0")
 
@@ -17,6 +17,8 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
 app.include_router(fridges.router, prefix="/api")
+app.include_router(items.router, prefix="/api")
+app.include_router(item_ops.router, prefix="/api")
 
 
 @app.get("/health")
