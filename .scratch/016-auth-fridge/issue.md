@@ -1,7 +1,7 @@
 # 016 账号与冰箱共享
 
 - Labels: wayfinder:task
-- Status: open
+- Status: closed
 - Assignee: Yk
 - Blocked-by: 15
 - Parent: 1
