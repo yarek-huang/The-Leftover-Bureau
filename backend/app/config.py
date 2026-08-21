@@ -18,9 +18,11 @@ class Settings(BaseSettings):
     llm_text_provider: str = "zhipu"
     llm_text_model: str = "glm-4.6-flash"
     llm_text_api_key: str = ""
+    llm_text_api_base: str = ""  # 留空用 litellm 默认；智谱标准端点 https://open.bigmodel.cn/api/paas/v4
     llm_vision_provider: str = "zhipu"
     llm_vision_model: str = "glm-4.6v-flash"
     llm_vision_api_key: str = ""
+    llm_vision_api_base: str = ""
 
     enforce_https: bool = False
     password_strength_check: bool = False

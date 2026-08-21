@@ -58,7 +58,12 @@ class LLMClient:
     def _model(self, slot: str) -> str:
         provider = getattr(settings, f"llm_{slot}_provider")
         model = getattr(settings, f"llm_{slot}_model")
-        return f"{provider}/{model}"
+        native = {p.value for p in litellm.provider_list}
+        if provider in native:
+            return f"{provider}/{model}"
+        # litellm 1.50 无 zhipu 原生 provider：智谱端点兼容 OpenAI 格式，
+        # 走 openai/ 前缀 + api_base（.env 里 provider 仍写语义名）
+        return f"openai/{model}"
 
     def _completion(
         self,
@@ -75,6 +80,9 @@ class LLMClient:
         api_key = getattr(settings, f"llm_{slot}_api_key")
         if api_key:
             kwargs["api_key"] = api_key
+        api_base = getattr(settings, f"llm_{slot}_api_base")
+        if api_base:
+            kwargs["api_base"] = api_base
         if json_mode:
             kwargs["response_format"] = {"type": "json_object"}
         try:
