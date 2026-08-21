@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.deps import get_current_user
+from app.llm import LLMError, llm_client
 from app.models import Recipe, RecipeIngredientLine, User
 from app.schemas import (
     RecipeCreateIn,
@@ -15,8 +17,35 @@ from app.schemas import (
 router = APIRouter(tags=["recipes"])
 
 
-# TODO(019): meat_type 由 LLMClient 按主料派生（005 决议）；provider 层就绪前先占位 mixed
+class _MeatTypeOut(BaseModel):
+    meat_type: str
+
+
 def derive_meat_type(lines: list) -> str:
+    """荤素派生（005 决议）：LLM 按主料标 meat/veg/mixed，仅供套餐搭配、可改。
+
+    非硬依赖：LLM 不可用时静默 fallback mixed（区别于推荐的报错不降级，011）。
+    """
+    mains = "; ".join(
+        f"{ln.name} {ln.quantity}".strip() for ln in lines if ln.role == "main"
+    )
+    if not mains:
+        return "mixed"
+    prompt = (
+        "以下是这道菜的主料清单，判断荤素类型：\n"
+        f"{mains}\n\n"
+        "规则：含明显肉类/海鲜→meat；纯植物原料（蛋奶素算 veg）→veg；"
+        "混合或难判断→mixed。只回类型。"
+    )
+    try:
+        out = llm_client.chat_structured(
+            prompt + "\nmeat_type 只能取 meat/veg/mixed 三个值之一。",
+            _MeatTypeOut,
+        )
+        if out.meat_type in ("meat", "veg", "mixed"):
+            return out.meat_type
+    except LLMError:
+        pass
     return "mixed"
 
 
