@@ -42,6 +42,7 @@
 - [食材录入三通道交互](../012-entry-ux/issue.md)：文字批量多行表单；拍照=拍→识别→逐条人工确认入库（绝不直接入库，失败退回文字表单预填）；列表行内编辑/删除+手动已用/丢弃按钮（触发004留痕）；红色通缉令=首页聚合顶部跨冰箱临期面板；V1 两通道移动端响应式、拍照为主入口（语音延后）。词汇已入 CONTEXT.md。
 - [设计文档成稿并验收](../009-design-doc/issue.md)：docs/design/ 9 模块（00 概览 + 01 领域模型 + 02 账号冰箱 + 03 食材管理 + 04 食谱审核 + 05 推荐引擎 + 06 AI provider + 07 前端 IA + 08 部署）全写完，每模块含数据模型/API 契约/流程/验收用例（临期五花肉、半颗卷心菜、不明剩菜盒三场景贯穿）；三处跨票修订（种子库手动、库空降级 LLM、保质期手填）已在 04/05/01+03 体现；Yk 验收通过。决策段收口，进入建造期。
 - [014 项目脚手架](../014-project-scaffold/issue.md)：Monorepo 空壳落地（backend FastAPI + frontend Vue3/Vite + db/redis/minio），docker-compose up 五服务全 Up，/health 经 nginx 反代可达，alembic 可连 DB（无 migration，015 才建）。实现修了两 bug（nginx 反代尾斜杠重写 /api→裸路由、DB dialect psycopg2）。详见 resolution。
+- [015 数据库 schema + ORM models](../015-database-models/issue.md)：11 业务表 + alembic_version 全建成（User/OAuthBinding/Fridge/Membership/InviteCode/StockItem/FridgeEvent/Recipe/RecipeIngredientLine/CaseFile/CaseFileEntry）；枚举用 String+CheckConstraint；留痕双轨（FridgeEvent ondelete SET NULL 保留署名）；alembic 首个 migration 落地。修了 default vs server_default bug（裸 SQL insert 现可用）。详见 resolution。
 
 ## Not yet specified
 

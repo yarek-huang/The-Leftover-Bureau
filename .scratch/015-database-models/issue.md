@@ -1,8 +1,8 @@
 # 015 数据库 schema + ORM models
 
 - Labels: wayfinder:task
-- Status: open
-- Assignee: Yk
+- Status: closed
+- Assignee: agent
 - Blocked-by: 14
 - Parent: 1
 
