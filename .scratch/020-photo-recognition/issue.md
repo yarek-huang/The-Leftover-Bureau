@@ -1,8 +1,8 @@
 # 020 拍照识别通道
 
 - Labels: wayfinder:task
-- Status: open
-- Assignee: Yk
+- Status: closed
+- Assignee: agent
 - Blocked-by: 19
 - Parent: 1
 

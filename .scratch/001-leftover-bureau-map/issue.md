@@ -47,6 +47,7 @@
 - [017 食材管理与录入（文字通道）](../017-ingredient-mgmt/issue.md)：批量录入/聚合视图（含 fridge_name，expiry nulls_last）/红色通缉令（跨冰箱 ≤3 天含过期，days_left 升序）/行内编辑 PATCH（model_fields_set 显式更新）/删除三态 consumed|discarded|deleted 全量 FridgeEvent 留痕带 snapshot。验收 15/15。详见 resolution。
 - [018 食谱与审核工作流](../018-recipe-review/issue.md)：Recipe CRUD + 状态机 private→pending→approved/rejected(带理由可重提) + admin 直建跳队列 approved（种子入口）+ 下架退私有 + 待审列表/审核/公开库筛选 + 可见性（approved 全员，其余作者与 admin，他人 404）。meat_type 留 019 TODO。验收 19+3 全过。详见 resolution。
 - [019 AI Provider 抽象层](../019-ai-provider-layer/issue.md)：app/llm.py LLMClient（LiteLLM 封装）chat/vision 双槽 + chat_structured/vision_structured 四层兜底（schema 注入→pydantic 校验→重试 1 次降温+错误反馈→LLMStructuredError 不降级）；provider 配置化切 deepseek 只改 env；补齐 018 meat_type LLM 派生（失败静默 fallback mixed）。mock 5/5 + 真实验收通过（文本 glm-5.3@coding 端点/视觉 glm-4.6v-flash@标准端点，litellm 1.50 无 zhipu 原生 → OpenAI 兼容模式）。详见 resolution。
+- [020 拍照识别通道](../020-photo-recognition/issue.md)：app/storage.py MinIO 封装 + POST /api/recognize（multipart→存档→vision_structured→名称+置信度）；人工确认闸门（绝不直接入库，入库走 017 批量端点）；prompt 两轮真机调优（熟食报菜名/认不出叫剩菜盒）；真机验收 生五花 0.95/熟烤五花 0.95/卷心菜 0.99/空图退表单全过。详见 resolution。
 
 ## Not yet specified
 
