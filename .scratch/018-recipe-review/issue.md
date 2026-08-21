@@ -1,8 +1,8 @@
 # 018 食谱与审核工作流
 
 - Labels: wayfinder:task
-- Status: open
-- Assignee: Yk
+- Status: closed
+- Assignee: agent
 - Blocked-by: 15, 16
 - Parent: 1
 

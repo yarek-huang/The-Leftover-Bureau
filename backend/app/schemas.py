@@ -130,3 +130,50 @@ class ItemPatchIn(BaseModel):
 
 class ExpiryAlertOut(StockItemOut):
     days_left: int
+
+
+# ---- recipes ----
+
+
+class RecipeLineIn(BaseModel):
+    name: str = Field(min_length=1, max_length=128)
+    quantity: str = Field(default="", max_length=64)
+    role: Literal["main", "seasoning"] = "main"
+
+
+class RecipeCreateIn(BaseModel):
+    title: str = Field(min_length=1, max_length=256)
+    steps: str = Field(min_length=1)
+    duration_min: int | None = Field(default=None, ge=1, le=1440)
+    servings: int | None = Field(default=None, ge=1, le=99)
+    difficulty: Literal["easy", "medium", "hard"] = "easy"
+    ingredient_lines: list[RecipeLineIn] = Field(min_length=1)
+    submit_for_review: bool = False
+
+
+class RecipeLineOut(RecipeLineIn):
+    id: int
+
+
+class RecipeOut(BaseModel):
+    id: int
+    title: str
+    steps: str
+    duration_min: int | None
+    servings: int | None
+    difficulty: str
+    meat_type: str
+    status: str
+    rejection_reason: str | None
+    author_id: int
+    author_name: str
+    ingredient_lines: list[RecipeLineOut]
+
+
+class StatusOut(BaseModel):
+    status: str
+
+
+class ReviewIn(BaseModel):
+    action: Literal["approve", "reject"]
+    reason: str | None = Field(default=None, max_length=1000)

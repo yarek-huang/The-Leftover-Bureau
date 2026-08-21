@@ -45,6 +45,7 @@
 - [015 数据库 schema + ORM models](../015-database-models/issue.md)：11 业务表 + alembic_version 全建成（User/OAuthBinding/Fridge/Membership/InviteCode/StockItem/FridgeEvent/Recipe/RecipeIngredientLine/CaseFile/CaseFileEntry）；枚举用 String+CheckConstraint；留痕双轨（FridgeEvent ondelete SET NULL 保留署名）；alembic 首个 migration 落地。修了 default vs server_default bug（裸 SQL insert 现可用）。详见 resolution。
 - [016 账号与冰箱共享](../016-auth-fridge/issue.md)：注册（空库首个豁免码自动 admin）/登录 JWT/多端不互踢/注册邀请码（任意登录用户可发）/admin 重置密码+任命转让（最后一名保护）/冰箱 CRUD+owner 权限矩阵+6 位码 join（上限 10 人）+归档恢复/聚合视图空壳与 accessible_fridge_ids 范围解析（021 复用）。验收 16/16。详见 resolution。
 - [017 食材管理与录入（文字通道）](../017-ingredient-mgmt/issue.md)：批量录入/聚合视图（含 fridge_name，expiry nulls_last）/红色通缉令（跨冰箱 ≤3 天含过期，days_left 升序）/行内编辑 PATCH（model_fields_set 显式更新）/删除三态 consumed|discarded|deleted 全量 FridgeEvent 留痕带 snapshot。验收 15/15。详见 resolution。
+- [018 食谱与审核工作流](../018-recipe-review/issue.md)：Recipe CRUD + 状态机 private→pending→approved/rejected(带理由可重提) + admin 直建跳队列 approved（种子入口）+ 下架退私有 + 待审列表/审核/公开库筛选 + 可见性（approved 全员，其余作者与 admin，他人 404）。meat_type 留 019 TODO。验收 19+3 全过。详见 resolution。
 
 ## Not yet specified
 
