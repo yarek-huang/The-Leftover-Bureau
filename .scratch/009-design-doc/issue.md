@@ -1,7 +1,7 @@
 # 设计文档成稿并验收
 
 - Labels: wayfinder:task
-- Status: open
+- Status: closed
 - Assignee: Yk
 - Blocked-by: 2, 3, 4, 5, 6, 10, 11, 12, 13
 - Parent: 1

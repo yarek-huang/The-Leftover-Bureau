@@ -40,11 +40,12 @@
 - [审核工作流](../013-review-workflow/issue.md)：状态机 private→pending→approved/rejected(带理由可重提)；admin 审核兼下架/编辑种子/重置密码；种子食谱 V1 不做 AI 批量生成（Yk 后台手动添加直接 approved，修订 002）；库空/无匹配时极速清场降级 LLM 现场生成（修订 005）；审核后台极简（待审列表+预览+通过/驳回填理由）；站内标记反馈无推送；审核标准不成文。词汇已入 CONTEXT.md。
 - [推荐引擎设计](../011-recommendation-engine/issue.md)：规则打分器（主料覆盖率/临期/口味）产候选集 + LLM 语义匹配/组套餐/剩菜改造；GLM json_object 结构化输出；极速清场同步、饕餮盛宴异步；LLM 不可用不降级直接报错（V1 推荐硬依赖 LLM）；临期/口味权重可调；Redis 按冰箱食材签名缓存 LLM 响应。词汇已入 CONTEXT.md。
 - [食材录入三通道交互](../012-entry-ux/issue.md)：文字批量多行表单；拍照=拍→识别→逐条人工确认入库（绝不直接入库，失败退回文字表单预填）；列表行内编辑/删除+手动已用/丢弃按钮（触发004留痕）；红色通缉令=首页聚合顶部跨冰箱临期面板；V1 两通道移动端响应式、拍照为主入口（语音延后）。词汇已入 CONTEXT.md。
+- [设计文档成稿并验收](../009-design-doc/issue.md)：docs/design/ 9 模块（00 概览 + 01 领域模型 + 02 账号冰箱 + 03 食材管理 + 04 食谱审核 + 05 推荐引擎 + 06 AI provider + 07 前端 IA + 08 部署）全写完，每模块含数据模型/API 契约/流程/验收用例（临期五花肉、半颗卷心菜、不明剩菜盒三场景贯穿）；三处跨票修订（种子库手动、库空降级 LLM、保质期手填）已在 04/05/01+03 体现；Yk 验收通过。决策段收口，进入建造期。
+- [014 项目脚手架](../014-project-scaffold/issue.md)：Monorepo 空壳落地（backend FastAPI + frontend Vue3/Vite + db/redis/minio），docker-compose up 五服务全 Up，/health 经 nginx 反代可达，alembic 可连 DB（无 migration，015 才建）。实现修了两 bug（nginx 反代尾斜杠重写 /api→裸路由、DB dialect psycopg2）。详见 resolution。
 
 ## Not yet specified
 
-- 逐模块建造票（后端服务、前端各页面、识别 pipeline、推荐引擎实现）：等"设计文档成稿"后按模块切片出票。
-- 内网部署形态（docker-compose 组合、反向代理、数据备份）与公网迁移清单：等建造票出现后具体化。
+- 建造期进行中（014-023 建造票已出）。实现中可能冒出的细化 fog（前端组件交互细节、LLM prompt 调优、缓存失效边界）随各票实现就地处理或开补丁票。
 
 ## Out of scope
 
